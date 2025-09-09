@@ -1,0 +1,84 @@
+
+# ===================== #
+#   Python / Django     #
+# ===================== #
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+.eggs/
+*.sqlite3
+db.sqlite3
+.env
+.env.*
+*.log
+media/
+staticfiles/
+static/
+local_settings.py
+
+# Django specific
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===================== #
+#   Node / React (Vite) #
+# ===================== #
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+
+# ===================== #
+#   Environment Files   #
+# ===================== #
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# ===================== #
+#   OS / Misc           #
+# ===================== #
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# ===================== #
+#   Coverage / Testing  #
+# ===================== #
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
