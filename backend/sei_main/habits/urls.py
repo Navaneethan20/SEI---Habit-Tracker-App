@@ -7,7 +7,7 @@ router.register(r"", HabitViewSet, basename="habit")
 router.register(r"badges", BadgeViewSet, basename="badge")
 
 urlpatterns = [
-    path("", include(router.urls)),
     path("streaks/", streaks_view, name="streaks"),
     path("mybadges/", user_badges_view, name="user_badges"),
+    path("", include(router.urls)),
 ]

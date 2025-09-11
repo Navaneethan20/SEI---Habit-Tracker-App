@@ -1,41 +1,95 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../utils/api";
+import api from "../api";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(null);
+  const [error, setError] = useState(null);
   const nav = useNavigate();
 
-  async function submit(e) {
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    setError(null);
+
+    if (!form.username || !form.password) {
+      setError("Please enter username and password.");
+      return;
+    }
+
     setLoading(true);
-    setErr(null);
     try {
-      const res = await api.post("/auth/login/", { username, password });
+      const res = await api.post("/auth/login/", {
+        username: form.username,
+        password: form.password,
+      });
+
+
       localStorage.setItem("access_token", res.data.access);
       localStorage.setItem("refresh_token", res.data.refresh);
-      nav("/");
-    } catch (e) {
-      setErr("Login failed. Check credentials.");
+      
+      console.log("Login successful, redirecting to dashboard...");
+
+      setTimeout(() => {
+      nav("/dashboard");
+    }, 100);
+    } catch (err) {
+      setError("Login failed. Check your credentials.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="max-w-md mx-auto mt-12">
-      <div className="bg-white shadow-md rounded-xl p-6">
-        <h2 className="text-2xl font-semibold mb-4">Sign in</h2>
-        {err && <div className="text-red-600 mb-2">{err}</div>}
-        <form onSubmit={submit} className="space-y-3">
-          <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" className="w-full p-2 border rounded-md" />
-          <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" className="w-full p-2 border rounded-md" />
-          <button disabled={loading} className="w-full py-2 bg-indigo-600 text-white rounded-md">{loading ? "Signing in..." : "Sign in"}</button>
+    <div className="app-container">
+      <div className="card" style={{ maxWidth: "420px", margin: "40px auto" }}>
+        <h2 className="h1" style={{ textAlign: "center" }}>
+          Sign In
+        </h2>
+
+        {error && (
+          <div style={{ color: "var(--danger)", marginBottom: "12px" }}>
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="form">
+          <input
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            placeholder="Username"
+            className="input"
+          />
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="input"
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
         </form>
-        <p className="text-sm text-slate-500 mt-3">Don't have an account? <Link to="/signup" className="text-indigo-600">Create one</Link></p>
+
+        <p className="muted" style={{ marginTop: "14px", textAlign: "center" }}>
+          Don’t have an account?{" "}
+          <Link to="/signup" style={{ color: "var(--accent-2)", fontWeight: 600 }}>
+            Create one
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -1,52 +1,61 @@
-import React, { useEffect, useState } from "react";
-import api from "../utils/api";
-import BadgeCard from "../components/BadgeCard";
+import React, { useEffect, useState } from 'react'
+import api from '../api'
 
-export default function Profile() {
-  const [badges, setBadges] = useState([]);
-  const [user, setUser] = useState(null);
+// Helper to decode JWT and get username
+function getUsernameFromToken() {
+  const token = localStorage.getItem('access_token');
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.username || payload.user_name || payload.email || 'User';
+  } catch {
+    return 'User';
+  }
+}
+
+export default function Profile(){
+  const [streaks, setStreaks] = useState([])
+  const username = getUsernameFromToken();
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  async function fetchProfile() {
-    try {
-      // We didn't create a /auth/me endpoint in backend; use token payload - or fetch user via a simple endpoint
-      // For now we get badges and habits and build a simple summary
-      const res = await api.get("/habits/mybadges/");
-      setBadges(res.data);
-
-      const hRes = await api.get("/habits/");
-      const habits = hRes.data;
-      const total = habits.length;
-      const totalLogs = habits.reduce((acc, h) => acc + (h.logs?.length || 0), 0);
-      setUser({ total_habits: total, total_logs: totalLogs });
-    } catch (e) {
-      console.error(e);
+    async function load(){
+      try{
+        const sRes = await api.get('/habits/streaks/');
+        setStreaks(sRes.data || []);
+      }catch(err){ console.error(err) }
     }
-  }
+    load()
+  }, [])
 
   return (
-    <div className="grid md:grid-cols-3 gap-6">
-      <div className="md:col-span-2 bg-white p-4 rounded-xl shadow-sm border">
-        <h2 className="text-xl font-semibold mb-2">Profile</h2>
-        <div className="space-y-2">
-          <div className="p-4 bg-slate-50 rounded-lg">
-            <div className="text-sm text-slate-500">Total habits</div>
-            <div className="text-2xl font-bold">{user?.total_habits ?? 0}</div>
-          </div>
-          <div className="p-4 bg-slate-50 rounded-lg">
-            <div className="text-sm text-slate-500">Total logs</div>
-            <div className="text-2xl font-bold">{user?.total_logs ?? 0}</div>
-          </div>
+    <div className="card" style={{maxWidth:800, margin:'0 auto'}}>
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+        <div>
+          <div className="h1">Profile</div>
+          <div className="muted">Manage your account</div>
         </div>
       </div>
 
-      <aside className="bg-white p-4 rounded-xl shadow-sm border">
-        <h3 className="font-medium mb-3">My badges</h3>
-        {badges.length === 0 ? <p className="text-slate-500">No badges yet. Keep going!</p> : <div className="space-y-2">{badges.map((b) => <BadgeCard key={b.id} badge={b} />)}</div>}
-      </aside>
+      <div style={{marginTop:12}}>
+        <div style={{display:'flex', gap:16, alignItems:'center'}}>
+          <div style={{width:88, height:88, borderRadius:16, background:'linear-gradient(90deg,var(--accent), var(--accent-2))', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:'#022'}}>U</div>
+          <div>
+            <div style={{fontWeight:800, fontSize:18}}>{username}</div>
+          </div>
+        </div>
+
+        <div style={{marginTop:18}}>
+          <div className="h1">Streaks</div>
+          <div style={{display:'flex', gap:12, marginTop:8, flexWrap:'wrap'}}>
+            {streaks.length ? streaks.map((s, idx) => (
+              <div key={s.habit_id || idx} className="card" style={{minWidth:140}}>
+                <div style={{fontWeight:700}}>{s.habit_name || s.habit_id}</div>
+                <div className="muted">Current: {s.current} | Best: {s.best}</div>
+              </div>
+            )) : <div className="muted">No streak data</div>}
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }

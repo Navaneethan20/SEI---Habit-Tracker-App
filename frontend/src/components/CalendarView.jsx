@@ -1,53 +1,48 @@
-import React, { useState, useEffect } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import api from "../utils/api";
-import { format } from "date-fns";
+import React from 'react'
+import dayjs from 'dayjs'
 
-export default function CalendarView({ habitId }) {
-  const [logs, setLogs] = useState([]); // list of {date, completed}
+/**
+ * props:
+ *  - logs: array of { date: 'YYYY-MM-DD', completed: true }
+ *  - month: dayjs object (current month)
+ *  - onToggle(dateString)
+ */
 
-  useEffect(() => {
-    fetchLogs();
-  }, [habitId]);
-
-  async function fetchLogs() {
-    try {
-      const res = await api.get(`/habits/${habitId}/logs/`);
-      setLogs(res.data.map((l) => ({ date: l.date, completed: l.completed, id: l.id })));
-    } catch (e) {
-      console.error(e);
-    }
+function genDays(month) {
+  const start = month.startOf('month')
+  const end = month.endOf('month')
+  const days = []
+  for (let d = start.date(); d <= end.date(); d++) {
+    days.push(month.date(d))
   }
+  return days
+}
 
-  function tileContent({ date, view }) {
-    if (view !== "month") return null;
-    const iso = format(date, "yyyy-MM-dd");
-    const hit = logs.find((l) => l.date === iso);
-    if (hit && hit.completed)
-      return <div className="w-3 h-3 bg-green-500 rounded-full mt-1 mx-auto" />;
-    return null;
-  }
-
-  async function onDateClick(date) {
-    const iso = format(date, "yyyy-MM-dd");
-    const existing = logs.find((l) => l.date === iso);
-    try {
-      const res = await api.post(`/habits/${habitId}/logs/`, { date: iso, completed: !(existing?.completed) });
-      // update logs
-      await fetchLogs();
-    } catch (e) {
-      console.error(e);
-    }
-  }
+export default function CalendarView({ logs = [], month = null, onToggle }) {
+  const m = month || dayjs()
+  const days = genDays(m)
+  const doneSet = new Set(logs.map(l => l.date))
 
   return (
-    <div className="p-4 bg-white rounded-xl shadow-sm border">
-      <Calendar
-        onClickDay={onDateClick}
-        tileContent={tileContent}
-      />
-      <p className="text-xs text-slate-500 mt-2">Click a date to toggle completion</p>
+    <div>
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10}}>
+        <div className="muted">{m.format('MMMM YYYY')}</div>
+      </div>
+
+      <div className="calendar-grid">
+        {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+          <div key={d} className="day" style={{fontWeight:700, background:'transparent', border:'none', color:'var(--muted)'}}>{d}</div>
+        ))}
+        {days.map(day => {
+          const dateStr = day.format('YYYY-MM-DD')
+          const done = doneSet.has(dateStr)
+          return (
+            <div key={dateStr} className={`day ${done ? 'done' : ''}`} onClick={() => onToggle && onToggle(dateStr)} style={{cursor: 'pointer'}}>
+              <div>{day.format('D')}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
-  );
+  )
 }
