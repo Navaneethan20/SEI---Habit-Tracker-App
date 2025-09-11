@@ -32,6 +32,6 @@ Track your daily habits, earn badges automatically, and visualize your progress 
 
 ---
 
-###📜 License
+### **📜 License**
 MIT License © 2025
 
