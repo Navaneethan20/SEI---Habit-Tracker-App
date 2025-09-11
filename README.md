@@ -32,53 +32,6 @@ Track your daily habits, earn badges automatically, and visualize your progress 
 
 ---
 
-## ⚡ Getting Started
-
-### 1️⃣ Clone the Repo
-git clone https://github.com/yourusername/sei-habit-app.git
-cd sei-habit-app
-2️⃣ Backend Setup (FastAPI)
-cd backend
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-Backend runs at 👉 http://127.0.0.1:8000
-
-3️⃣ Frontend Setup (React + Vite + Tailwind)
-cd frontend
-npm install
-npm run dev
-Frontend runs at 👉 http://localhost:5173
-
-🎖️ Badges Auto-Award System
-🏆 7 Days Streak → "Consistency Champ"
-
-📅 30 Days Streak → "One Month Hero"
-
-💯 100 Days Streak → "Century Performer"
-
-Badges are awarded automatically when streak milestones are achieved.
-
-🤝 Contributing
-🍴 Fork this repo
-
-🔧 Create a new branch (feature-xyz)
-
-✅ Commit your changes
-
-📤 Push to the branch
-
-🎉 Open a Pull Request
-
-📜 License
+###📜 License
 MIT License © 2025
 
-💡 Acknowledgements
-React
-
-FastAPI
-
-TailwindCSS
-
-Framer Motion
