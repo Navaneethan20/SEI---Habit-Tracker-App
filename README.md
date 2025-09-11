@@ -1,6 +1,6 @@
 # 🌱 SEI Habit Tracker App
 
-A full-stack **Habit Tracking Application** built with **React (Vite + TailwindCSS)** for the frontend and **FastAPI** for the backend.  
+A full-stack **Habit Tracking Application** built with **React (Vite + TailwindCSS)** for the frontend and **Django** for the backend.  
 Track your daily habits, earn badges automatically, and visualize your progress with a clean and interactive UI.  
 
 ---
@@ -13,7 +13,7 @@ Track your daily habits, earn badges automatically, and visualize your progress 
 ✅ Interactive calendar view for tracking  
 ✅ 🎖️ Auto-awarded badges for milestones  
 ✅ Profile management  
-✅ Modern UI with TailwindCSS, animations & effects  
+✅ Modern UI with CSS, animations & effects  
 
 ---
 
@@ -26,7 +26,7 @@ Track your daily habits, earn badges automatically, and visualize your progress 
 - ✨ Framer Motion (animations)
 
 ### **Backend**
-- 🚀 FastAPI
+- 🚀 Django
 - 🗄️ SQLite (can be switched to PostgreSQL/MySQL)
 - 🔐 JWT Authentication
 
