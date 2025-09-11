@@ -32,56 +32,12 @@ Track your daily habits, earn badges automatically, and visualize your progress 
 
 ---
 
-## 📂 Project Structure
-
-sei-habit-app/
-│── backend/
-│ ├── main.py
-│ ├── models.py
-│ ├── schemas.py
-│ ├── database.py
-│ └── routers/
-│ ├── auth.py
-│ ├── habits.py
-│ └── badges.py
-│
-│── frontend/
-│ ├── src/
-│ │ ├── App.jsx
-│ │ ├── main.jsx
-│ │ ├── pages/
-│ │ │ ├── Login.jsx
-│ │ │ ├── Signup.jsx
-│ │ │ ├── Dashboard.jsx
-│ │ │ ├── Habits.jsx
-│ │ │ └── Profile.jsx
-│ │ ├── components/
-│ │ │ ├── Navbar.jsx
-│ │ │ ├── HabitForm.jsx
-│ │ │ ├── CalendarView.jsx
-│ │ │ └── BadgeCard.jsx
-│ │ └── utils/
-│ │ └── api.js
-│ ├── index.css
-│ └── tailwind.config.js
-│
-│── README.md
-│── .gitignore
-
-yaml
-Copy code
-
----
-
 ## ⚡ Getting Started
 
 ### 1️⃣ Clone the Repo
-```bash
 git clone https://github.com/yourusername/sei-habit-app.git
 cd sei-habit-app
 2️⃣ Backend Setup (FastAPI)
-bash
-Copy code
 cd backend
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
@@ -90,8 +46,6 @@ uvicorn main:app --reload
 Backend runs at 👉 http://127.0.0.1:8000
 
 3️⃣ Frontend Setup (React + Vite + Tailwind)
-bash
-Copy code
 cd frontend
 npm install
 npm run dev
@@ -106,9 +60,6 @@ Frontend runs at 👉 http://localhost:5173
 
 Badges are awarded automatically when streak milestones are achieved.
 
-📸 Screenshots
-Login Page	Dashboard	Calendar View
-
 🤝 Contributing
 🍴 Fork this repo
 
@@ -121,7 +72,7 @@ Login Page	Dashboard	Calendar View
 🎉 Open a Pull Request
 
 📜 License
-MIT License © 2025 Your Name
+MIT License © 2025
 
 💡 Acknowledgements
 React
