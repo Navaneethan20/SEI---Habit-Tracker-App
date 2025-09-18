@@ -21,7 +21,7 @@ Track your daily habits, earn badges automatically, and visualize your progress 
 
 ### **Frontend**
 - ⚛️ React (Vite)
-- 🎨 TailwindCSS
+- 🎨 CSS
 - 🔄 Axios (API calls)
 - ✨ Framer Motion (animations)
 
